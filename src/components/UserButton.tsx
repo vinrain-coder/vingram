@@ -74,15 +74,15 @@ export default function UserButton({ className }: UserButtonProps) {
           </DropdownMenuPortal>
         </DropdownMenuSub>
         <DropdownMenuSeparator />
-        {/* <DropdownMenuItem
+        <DropdownMenuItem
           onClick={() => {
-            queryClient.clear();
+            // queryClient.clear();
             logout();
           }}
         >
           <LogOutIcon className="mr-2 size-4" />
           Logout
-        </DropdownMenuItem> */}
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
