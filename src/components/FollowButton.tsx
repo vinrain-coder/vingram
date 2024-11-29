@@ -24,7 +24,7 @@ export default function FollowButton({
 
   const { data } = useFollowerInfo(userId, initialState);
 
-  const {} = useMutation({
+  const { mutate } = useMutation({
     mutationFn: () =>
       data.isFollowedByUser
         ? kyInstance.delete(`/api/users/${userId}/followers`)
@@ -56,7 +56,6 @@ export default function FollowButton({
   return (
     <Button
       variant={data.isFollowedByUser ? "secondary" : "default"}
-      //@ts-ignore
       onClick={() => mutate()}
     >
       {data.isFollowedByUser ? "Unfollow" : "Follow"}
