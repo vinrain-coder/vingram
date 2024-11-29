@@ -40,7 +40,7 @@ export default function DeletePostDialog({
             undone.
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter>
+        <DialogFooter className="gap-2">
           <LoadingButton
             variant="destructive"
             onClick={() => mutation.mutate(post.id, { onSuccess: onClose })}
