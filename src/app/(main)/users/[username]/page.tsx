@@ -12,6 +12,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { cache } from "react";
 import UserPosts from "./UserPosts";
+import Linkify from "@/components/Linkify";
 
 interface PageProps {
   params: { username: string };
@@ -89,11 +90,11 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
   };
 
   return (
-    <div className="h-fit w-full space-y-5 rounded-2xl bg-card shadow-sm">
+    <div className="h-fit w-full space-y-5 rounded-2xl bg-card p-5 shadow-sm">
       <UserAvatar
         avatarUrl={user.avatarUrl}
-        size={250}
-        className="mx-auto size-full max-h-60 rounded-full"
+        size={200}
+        className="mx-auto max-w-60 size-full max-h-60 rounded-full"
       />
       <div className="flex flex-wrap gap-3 sm:flex-nowrap">
         <div className="me-auto space-y-3">
@@ -110,8 +111,8 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
               <span className="font-semibold">
                 {formatNumber(user._count.posts)}
               </span>
-              <FollowerCount userId={user.id} initialState={followerInfo} />
             </span>
+            <FollowerCount userId={user.id} initialState={followerInfo} />
           </div>
         </div>
         {user.id === loggedInUserId ? (
@@ -123,9 +124,11 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
       {user.bio && (
         <>
           <hr />
-          <div className="whitespace-pre-line overflow-hidden break-words">
-            {user.bio}
-          </div>
+          <Linkify>
+            <div className="whitespace-pre-line overflow-hidden break-words">
+              {user.bio}
+            </div>
+          </Linkify>
         </>
       )}
     </div>
