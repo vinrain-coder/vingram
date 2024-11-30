@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { HTTPError } from "ky";
 import Link from "next/link";
 import { PropsWithChildren } from "react";
+//@ts-ignore
 import UserTooltip from "./UserToolTip";
 
 interface UserLinkWithTooltipProps extends PropsWithChildren {
