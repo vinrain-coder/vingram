@@ -9,7 +9,7 @@ import { unstable_cache } from "next/cache";
 import { formatNumber } from "@/lib/utils";
 import FollowButton from "./FollowButton";
 import { getUserDataSelect } from "@/lib/types";
-import UserToolTip from "./UserToolTip";
+import UserToolTip from "./UserTooltip";
 
 export default function TrendsSidebar() {
   return (

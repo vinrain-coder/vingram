@@ -1,14 +1,15 @@
-"user client";
+"use client";
+
 import kyInstance from "@/lib/ky";
 import { UserData } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
 import { HTTPError } from "ky";
 import Link from "next/link";
 import { PropsWithChildren } from "react";
-import UserToolTip from "./UserToolTip";
+import UserTooltip from "./UserToolTip";
 
 interface UserLinkWithTooltipProps extends PropsWithChildren {
-  username: String;
+  username: string;
 }
 
 export default function UserLinkWithTooltip({
@@ -30,16 +31,23 @@ export default function UserLinkWithTooltip({
 
   if (!data) {
     return (
-      <Link href={`/user/${username}`} className="text-primary hover:underline">
+      <Link
+        href={`/users/${username}`}
+        className="text-primary hover:underline"
+      >
         {children}
       </Link>
     );
   }
+
   return (
-    <UserToolTip user={data}>
-      <Link href={`/user/${username}`} className="text-primary hover:underline">
+    <UserTooltip user={data}>
+      <Link
+        href={`/users/${username}`}
+        className="text-primary hover:underline"
+      >
         {children}
       </Link>
-    </UserToolTip>
+    </UserTooltip>
   );
 }

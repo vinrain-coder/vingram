@@ -2,24 +2,24 @@
 
 import { useSession } from "@/app/(main)/SessionProvider";
 import { FollowerInfo, UserData } from "@/lib/types";
-import Link from "next/link";
 import { PropsWithChildren } from "react";
-import FollowButton from "./FollowButton";
-import FollowerCount from "./FollowerCount";
-import Linkify from "./Linkify";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "./ui/tooltip";
+import Link from "next/link";
 import UserAvatar from "./UserAvatar";
+import FollowButton from "./FollowButton";
+import Linkify from "./Linkify";
+import FollowerCount from "./FollowerCount";
 
-interface UserTooltipProps extends PropsWithChildren {
+interface UserToolTipProps extends PropsWithChildren {
   user: UserData;
 }
 
-export default function UserTooltip({ children, user }: UserTooltipProps) {
+export default function UserToolTip({ children, user }: UserToolTipProps) {
   const { user: loggedInUser } = useSession();
 
   const followerState: FollowerInfo = {
@@ -43,7 +43,7 @@ export default function UserTooltip({ children, user }: UserTooltipProps) {
                 <FollowButton userId={user.id} initialState={followerState} />
               )}
             </div>
-            <div>
+            <div className="">
               <Link href={`/users/${user.username}`}>
                 <div className="text-lg font-semibold hover:underline">
                   {user.displayName}

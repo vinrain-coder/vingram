@@ -8,7 +8,7 @@ import formatRelativeDate from "@/lib/utils";
 import { useSession } from "@/app/(main)/SessionProvider";
 import PostMoreButton from "./PostMoreButton";
 import Linkify from "../Linkify";
-import UserToolTip from "../UserToolTip";
+import UserToolTip from "../UserTooltip";
 
 interface PostProps {
   post: PostData;
