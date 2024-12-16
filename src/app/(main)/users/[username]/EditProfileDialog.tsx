@@ -1,3 +1,6 @@
+import avatarPlaceholder from "@/assets/avatar-placeholder.png";
+import CropImageDialog from "@/components/CropImageDialog";
+import LoadingButton from "@/components/LoadingButton";
 import {
   Dialog,
   DialogContent,
@@ -5,14 +8,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { UserData } from "@/lib/types";
-import {
-  updateUserProfileSchema,
-  UpdateUserProfileValues,
-} from "@/lib/validation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { useUpdateProfileMutation } from "./mutations";
 import {
   Form,
   FormControl,
@@ -22,15 +17,20 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import LoadingButton from "@/components/LoadingButton";
+import { UserData } from "@/lib/types";
+import {
+  updateUserProfileSchema,
+  UpdateUserProfileValues,
+} from "@/lib/validation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Camera } from "lucide-react";
 import Image, { StaticImageData } from "next/image";
 import { useRef, useState } from "react";
-import { Label } from "@/components/ui/label";
-import avatarPlaceholder from "@/assets/avatar-placeholder.png";
-import { Camera } from "lucide-react";
-import CropImageDialog from "@/components/CropImageDialog";
+import { useForm } from "react-hook-form";
 import Resizer from "react-image-file-resizer";
+import { useUpdateProfileMutation } from "./mutations";
 
 interface EditProfileDialogProps {
   user: UserData;
@@ -59,6 +59,7 @@ export default function EditProfileDialog({
     const newAvatarFile = croppedAvatar
       ? new File([croppedAvatar], `avatar_${user.id}.webp`)
       : undefined;
+
     mutation.mutate(
       {
         values,
@@ -77,7 +78,7 @@ export default function EditProfileDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Edit Profile</DialogTitle>
+          <DialogTitle>Edit profile</DialogTitle>
         </DialogHeader>
         <div className="space-y-1.5">
           <Label>Avatar</Label>
@@ -113,7 +114,7 @@ export default function EditProfileDialog({
                   <FormLabel>Bio</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Tell us a little bit about yourself..."
+                      placeholder="Tell us a little bit about yourself"
                       className="resize-none"
                       {...field}
                     />
@@ -140,7 +141,7 @@ interface AvatarInputProps {
 }
 
 function AvatarInput({ src, onImageCropped }: AvatarInputProps) {
-  const [imageToCrop, setImageToCropped] = useState<File>();
+  const [imageToCrop, setImageToCrop] = useState<File>();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -154,7 +155,7 @@ function AvatarInput({ src, onImageCropped }: AvatarInputProps) {
       "WEBP",
       100,
       0,
-      (uri) => setImageToCropped(uri as File),
+      (uri) => setImageToCrop(uri as File),
       "file"
     );
   }
@@ -166,21 +167,21 @@ function AvatarInput({ src, onImageCropped }: AvatarInputProps) {
         accept="image/*"
         onChange={(e) => onImageSelected(e.target.files?.[0])}
         ref={fileInputRef}
-        className="hidden sr-only"
+        className="sr-only hidden"
       />
       <button
         type="button"
-        onClick={() => fileInputRef.current?.click}
+        onClick={() => fileInputRef.current?.click()}
         className="group relative block"
       >
         <Image
           src={src}
-          alt="Avatar Preview"
+          alt="Avatar preview"
           width={150}
           height={150}
           className="size-32 flex-none rounded-full object-cover"
         />
-        <span className=" absolute inset-0 m-auto size-12 items-center justify-center rounded-full bg-black bg-opacity-30 text-white transition-colors duration-200 group-hover:bg-opacity-25">
+        <span className="absolute inset-0 m-auto flex size-12 items-center justify-center rounded-full bg-black bg-opacity-30 text-white transition-colors duration-200 group-hover:bg-opacity-25">
           <Camera size={24} />
         </span>
       </button>
@@ -190,7 +191,7 @@ function AvatarInput({ src, onImageCropped }: AvatarInputProps) {
           cropAspectRatio={1}
           onCropped={onImageCropped}
           onClose={() => {
-            setImageToCropped(undefined);
+            setImageToCrop(undefined);
             if (fileInputRef.current) {
               fileInputRef.current.value = "";
             }

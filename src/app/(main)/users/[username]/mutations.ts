@@ -1,4 +1,4 @@
-import { useToast } from "@/hooks/use-toast";
+import { PostsPage } from "@/lib/types";
 import { useUploadThing } from "@/lib/uploadthing";
 import { UpdateUserProfileValues } from "@/lib/validation";
 import {
@@ -9,7 +9,7 @@ import {
 } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { updateUserProfile } from "./actions";
-import { PostsPage } from "@/lib/types";
+import { useToast } from "@/hooks/use-toast";
 
 export function useUpdateProfileMutation() {
   const { toast } = useToast();
@@ -45,12 +45,12 @@ export function useUpdateProfileMutation() {
       queryClient.setQueriesData<InfiniteData<PostsPage, string | null>>(
         queryFilter,
         (oldData) => {
-          if (!oldData) return oldData;
+          if (!oldData) return;
 
           return {
-            ...oldData,
+            pageParams: oldData.pageParams,
             pages: oldData.pages.map((page) => ({
-              ...page,
+              nextCursor: page.nextCursor,
               posts: page.posts.map((post) => {
                 if (post.user.id === updatedUser.id) {
                   return {
@@ -65,7 +65,7 @@ export function useUpdateProfileMutation() {
               }),
             })),
           };
-        }
+        },
       );
 
       router.refresh();
@@ -78,7 +78,7 @@ export function useUpdateProfileMutation() {
       console.error(error);
       toast({
         variant: "destructive",
-        description: "Failed to update profile. Please try again",
+        description: "Failed to update profile. Please try again.",
       });
     },
   });
