@@ -1,15 +1,26 @@
-//@ts-nocheck
 "use client";
 
-import { Post as PostData } from "@prisma/client";
-import Link from "next/link";
-import UserAvatar from "../UserAvatar";
-import formatRelativeDate from "@/lib/utils";
+// In your global CSS file or component file
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+
 import { useSession } from "@/app/(main)/SessionProvider";
-import PostMoreButton from "./PostMoreButton";
-import Linkify from "../Linkify";
-import UserTooltip from "../UserToolTip";
+import { PostData } from "@/lib/types";
+import formatRelativeDate, { cn } from "@/lib/utils";
+import { Media } from "@prisma/client";
+import { MessageSquare } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
+// import Comments from "../comments/Comments";
+import Linkify from "../Linkify";
+import UserAvatar from "../UserAvatar";
+// import BookmarkButton from "./BookmarkButton";
+// import LikeButton from "./LikeButton";
+import PostMoreButton from "./PostMoreButton";
+import UserTooltip from "../UserToolTip";
+import Slider from "react-slick";
 
 interface PostProps {
   post: PostData;
@@ -18,13 +29,15 @@ interface PostProps {
 export default function Post({ post }: PostProps) {
   const { user } = useSession();
 
+  const [showComments, setShowComments] = useState(false);
+
   return (
     <article className="group/post space-y-3 rounded-2xl bg-card p-5 shadow-sm">
       <div className="flex justify-between gap-3">
         <div className="flex flex-wrap gap-3">
           <UserTooltip user={post.user}>
             <Link href={`/users/${post.user.username}`}>
-              <UserAvatar avatarUrl={post.user.avatar} />
+              <UserAvatar avatarUrl={post.user.avatarUrl} />
             </Link>
           </UserTooltip>
           <div>
@@ -38,7 +51,8 @@ export default function Post({ post }: PostProps) {
             </UserTooltip>
             <Link
               href={`/posts/${post.id}`}
-              className="block text-sm text-muted-foreground hover-underline"
+              className="block text-sm text-muted-foreground hover:underline"
+              suppressHydrationWarning
             >
               {formatRelativeDate(post.createdAt)}
             </Link>
@@ -57,62 +71,93 @@ export default function Post({ post }: PostProps) {
       {!!post.attachments.length && (
         <MediaPreviews attachments={post.attachments} />
       )}
+      <hr className="text-muted-foreground" />
+      <div className="flex justify-between gap-5">
+        {/* <div className="flex items-center gap-5">
+          <LikeButton
+            postId={post.id}
+            initialState={{
+              likes: post._count.likes,
+              isLikedByUser: post.likes.some((like) => like.userId === user.id),
+            }}
+          />
+          <CommentButton
+            post={post}
+            onClick={() => setShowComments(!showComments)}
+          />
+        </div> */}
+        {/* <BookmarkButton
+          postId={post.id}
+          initialState={{
+            isBookmarkedByUser: post.bookmarks.some(
+              (bookmark) => bookmark.userId === user.id,
+            ),
+          }}
+        /> */}
+      </div>
     </article>
-  );
+  )
+}
+
+
+interface MediaPreviewsProps {
+  attachments: Media[];
 }
 
 function MediaPreviews({ attachments }: MediaPreviewsProps) {
+  // Slick carousel settings
+const settings = {
+  dots: true, // Show navigation dots
+  infinite: false, // Infinite scrolling
+  speed: 500, // Transition speed
+  slidesToShow: 2, // Show two slides at a time
+  slidesToScroll: 1, // Scroll one slide at a time
+  nextArrow: <div className="slick-next"></div>, // Customize next arrow
+  prevArrow: <div className="slick-prev"></div>, // Customize previous arrow
+  // Add custom styling to Slick items
+  centerMode: false, // Disable center mode
+  centerPadding: '20px', // Space between the items
+};
+
+
+
   return (
-    <div
-      className={cn(
-        "grid gap-2",
-        attachments.length === 1 && "grid-cols-1",
-        attachments.length === 2 && "grid-cols-2",
-        attachments.length >= 3 && "grid-cols-2 md:grid-cols-3"
-      )}
-    >
-      {attachments.slice(0, 5).map((media, index) => (
-        <MediaPreview
-          key={media.id}
-          media={media}
-          isLast={index === 4 && attachments.length > 5}
-        />
-      ))}
+    <div className="relative">
+      <Slider {...settings}>
+        {attachments.map((media) => (
+          <div key={media.id} className="pl-3">
+            <MediaPreview media={media}/>
+          </div>
+        ))}
+      </Slider>
     </div>
   );
 }
 
 interface MediaPreviewProps {
   media: Media;
-  isLast?: boolean;
 }
 
-function MediaPreview({ media, isLast }: MediaPreviewProps) {
+function MediaPreview({ media }: MediaPreviewProps) {
   if (media.type === "IMAGE") {
     return (
-      <div className="relative">
-        <Image
-          src={media.url}
-          alt="Attachment"
-          layout="fill"
-          className="rounded-2xl object-cover"
-        />
-        {isLast && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/50 text-white text-lg font-bold rounded-2xl">
-            +{media.attachments.length - 5} more
-          </div>
-        )}
-      </div>
+      <Image
+        src={media.url}
+        alt="Attachment"
+        width={600} // Customize size
+        height={600} // Customize size
+        className="object-cover rounded-2xl"
+      />
     );
   }
 
   if (media.type === "VIDEO") {
     return (
-      <div className="relative">
+      <div>
         <video
           src={media.url}
           controls
-          className="w-full h-full max-h-[15rem] object-cover rounded-2xl"
+          className="object-cover w-full h-full rounded-2xl"
         />
       </div>
     );
@@ -120,3 +165,23 @@ function MediaPreview({ media, isLast }: MediaPreviewProps) {
 
   return <p className="text-destructive">Unsupported media type</p>;
 }
+
+
+
+
+// interface CommentButtonProps {
+//   post: PostData;
+//   onClick: () => void;
+// }
+
+// function CommentButton({ post, onClick }: CommentButtonProps) {
+//   return (
+//     <button onClick={onClick} className="flex items-center gap-2">
+//       <MessageSquare className="size-5" />
+//       <span className="text-sm font-medium tabular-nums">
+//         {post._count.comments}{" "}
+//         <span className="hidden sm:inline">comments</span>
+//       </span>
+//     </button>
+//   );
+// }
