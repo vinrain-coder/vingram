@@ -1,9 +1,7 @@
 "use client";
 
-// In your global CSS file or component file
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
 
 import { useSession } from "@/app/(main)/SessionProvider";
 import { PostData } from "@/lib/types";
@@ -96,37 +94,33 @@ export default function Post({ post }: PostProps) {
         /> */}
       </div>
     </article>
-  )
+  );
 }
-
 
 interface MediaPreviewsProps {
   attachments: Media[];
 }
 
 function MediaPreviews({ attachments }: MediaPreviewsProps) {
-  // Slick carousel settings
-const settings = {
-  dots: true, // Show navigation dots
-  infinite: false, // Infinite scrolling
-  speed: 500, // Transition speed
-  slidesToShow: 2, // Show two slides at a time
-  slidesToScroll: 1, // Scroll one slide at a time
-  nextArrow: <div className="slick-next"></div>, // Customize next arrow
-  prevArrow: <div className="slick-prev"></div>, // Customize previous arrow
-  // Add custom styling to Slick items
-  centerMode: false, // Disable center mode
-  centerPadding: '20px', // Space between the items
-};
+  const settings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 2,
+    slidesToScroll: 1,
+    nextArrow: <div className="slick-next"></div>,
+    prevArrow: <div className="slick-prev"></div>,
 
-
+    centerMode: false,
+    centerPadding: "20px",
+  };
 
   return (
     <div className="relative">
       <Slider {...settings}>
         {attachments.map((media) => (
           <div key={media.id} className="pl-3">
-            <MediaPreview media={media}/>
+            <MediaPreview media={media} />
           </div>
         ))}
       </Slider>
@@ -145,7 +139,7 @@ function MediaPreview({ media }: MediaPreviewProps) {
         src={media.url}
         alt="Attachment"
         width={600} // Customize size
-        height={600} // Customize size
+        height={600}
         className="object-cover rounded-2xl"
       />
     );
@@ -165,9 +159,6 @@ function MediaPreview({ media }: MediaPreviewProps) {
 
   return <p className="text-destructive">Unsupported media type</p>;
 }
-
-
-
 
 // interface CommentButtonProps {
 //   post: PostData;
