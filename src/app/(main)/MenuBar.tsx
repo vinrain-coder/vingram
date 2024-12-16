@@ -1,6 +1,5 @@
 import { validateRequest } from "@/auth";
 import { Button } from "@/components/ui/button";
-import prisma from "@/lib/prisma";
 // import streamServerClient from "@/lib/stream";
 import { Bookmark, Home } from "lucide-react";
 import Link from "next/link";

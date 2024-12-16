@@ -5,17 +5,17 @@ import "slick-carousel/slick/slick-theme.css";
 
 import { useSession } from "@/app/(main)/SessionProvider";
 import { PostData } from "@/lib/types";
-import formatRelativeDate, { cn } from "@/lib/utils";
+import formatRelativeDate, {  } from "@/lib/utils";
 import { Media } from "@prisma/client";
-import { MessageSquare } from "lucide-react";
+// import { MessageSquare } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+// import { useState } from "react";
 // import Comments from "../comments/Comments";
 import Linkify from "../Linkify";
 import UserAvatar from "../UserAvatar";
 // import BookmarkButton from "./BookmarkButton";
-// import LikeButton from "./LikeButton";
+import LikeButton from "./LikeButton";
 import PostMoreButton from "./PostMoreButton";
 import UserTooltip from "../UserToolTip";
 import Slider from "react-slick";
@@ -27,7 +27,7 @@ interface PostProps {
 export default function Post({ post }: PostProps) {
   const { user } = useSession();
 
-  const [showComments, setShowComments] = useState(false);
+  // const [showComments, setShowComments] = useState(false);
 
   return (
     <article className="group/post space-y-3 rounded-2xl bg-card p-5 shadow-sm">
@@ -71,7 +71,7 @@ export default function Post({ post }: PostProps) {
       )}
       <hr className="text-muted-foreground" />
       <div className="flex justify-between gap-5">
-        {/* <div className="flex items-center gap-5">
+         <div className="flex items-center gap-5">
           <LikeButton
             postId={post.id}
             initialState={{
@@ -79,11 +79,11 @@ export default function Post({ post }: PostProps) {
               isLikedByUser: post.likes.some((like) => like.userId === user.id),
             }}
           />
-          <CommentButton
+          {/* <CommentButton
             post={post}
             onClick={() => setShowComments(!showComments)}
-          />
-        </div> */}
+          /> */}
+        </div> 
         {/* <BookmarkButton
           postId={post.id}
           initialState={{

@@ -1,8 +1,6 @@
-import Post from "@/components/posts/Post";
 import PostEditor from "@/components/posts/editor/PostEditor";
 import TrendsSidebar from "@/components/TrendsSidebar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import prisma from "@/lib/prisma";
 import ForYouFeed from "./ForYouFeed";
 import FollowingFeed from "./FollowingFeed";
 
