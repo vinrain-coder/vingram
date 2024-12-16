@@ -1,6 +1,5 @@
 //@ts-nocheck
 import { PrismaAdapter } from "@lucia-auth/adapter-prisma";
-import { Google } from "arctic";
 import { Lucia, Session, User } from "lucia";
 import { cookies } from "next/headers";
 import { cache } from "react";
@@ -41,10 +40,6 @@ interface DatabaseUserAttributes {
   googleId: string | null;
 }
 
-export const google = new Google(
-  process.env.GOOGLE_CLIENT_ID!,
-  process.env.GOOGLE_CLIENT_SECRET!
-);
 
 export const validateRequest = cache(
   async (): Promise<
