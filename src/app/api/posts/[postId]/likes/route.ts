@@ -4,7 +4,7 @@ import { LikeInfo } from "@/lib/types";
 
 export async function GET(
   req: Request,
-  { params: { postId } }: { params: { postId: string } },
+  { params: { postId } }: { params: { postId: string } }
 ) {
   try {
     const { user: loggedInUser } = await validateRequest();
@@ -50,7 +50,7 @@ export async function GET(
 
 export async function POST(
   req: Request,
-  { params: { postId } }: { params: { postId: string } },
+  { params: { postId } }: { params: { postId: string } }
 ) {
   try {
     const { user: loggedInUser } = await validateRequest();
@@ -86,14 +86,14 @@ export async function POST(
       }),
       ...(loggedInUser.id !== post.userId
         ? [
-            // prisma.notification.create({
-            //   data: {
-            //     issuerId: loggedInUser.id,
-            //     recipientId: post.userId,
-            //     postId,
-            //     type: "LIKE",
-            //   },
-            // }),
+            prisma.notification.create({
+              data: {
+                issuerId: loggedInUser.id,
+                recipientId: post.userId,
+                postId,
+                type: "LIKE",
+              },
+            }),
           ]
         : []),
     ]);
@@ -107,7 +107,7 @@ export async function POST(
 
 export async function DELETE(
   req: Request,
-  { params: { postId } }: { params: { postId: string } },
+  { params: { postId } }: { params: { postId: string } }
 ) {
   try {
     const { user: loggedInUser } = await validateRequest();
@@ -134,14 +134,14 @@ export async function DELETE(
           postId,
         },
       }),
-    //   prisma.notification.deleteMany({
-    //     where: {
-    //       issuerId: loggedInUser.id,
-    //       recipientId: post.userId,
-    //       postId,
-    //       type: "LIKE",
-    //     },
-    //   }),
+      prisma.notification.deleteMany({
+        where: {
+          issuerId: loggedInUser.id,
+          recipientId: post.userId,
+          postId,
+          type: "LIKE",
+        },
+      }),
     ]);
 
     return new Response();

@@ -27,18 +27,18 @@ export async function submitComment({
       },
       include: getCommentDataInclude(user.id),
     }),
-    // ...(post.user.id !== user.id
-    //   ? [
-    //       prisma.notification.create({
-    //         data: {
-    //           issuerId: user.id,
-    //           recipientId: post.user.id,
-    //           postId: post.id,
-    //           type: "COMMENT",
-    //         },
-    //       }),
-    //     ]
-    //   : []),
+    ...(post.user.id !== user.id
+      ? [
+          prisma.notification.create({
+            data: {
+              issuerId: user.id,
+              recipientId: post.user.id,
+              postId: post.id,
+              type: "COMMENT",
+            },
+          }),
+        ]
+      : []),
   ]);
 
   return newComment;
