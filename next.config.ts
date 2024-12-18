@@ -22,6 +22,18 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  rewrites: async () => {
+    return {
+      beforeFiles: [],
+      afterFiles: [
+        {
+          source: "/hashtag/:tag",
+          destination: "/search?q=%23:tag",
+        },
+      ],
+      fallback: [],
+    };
+  },
 };
 
 export default nextConfig;
