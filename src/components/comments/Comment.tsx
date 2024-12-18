@@ -4,8 +4,8 @@ import { CommentData } from "@/lib/types";
 import Link from "next/link";
 import UserAvatar from "../UserAvatar";
 import UserTooltip from "../UserTooltip";
-import formatRelativeDate from "@/lib/utils";
 import CommentMoreButton from "./CommentMoreButton";
+import { formatRelativeDate } from "@/lib/utils";
 
 interface CommentProps {
   comment: CommentData;
