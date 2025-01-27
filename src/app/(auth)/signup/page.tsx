@@ -18,12 +18,12 @@ export default function Page() {
               A place where even <span className="italic">you</span> can find a
               friend.
             </p>
-{/*             <GoogleSignInButton /> */}
-{/*             <div className="flex items-center gap-3"> */}
-{/*               <div className="h-px flex-1 bg-muted" /> */}
-{/*               <span>OR</span> */}
-{/*               <div className="h-px flex-1 bg-muted" /> */}
-{/*             </div> */}
+            <GoogleSignInButton /> 
+             <div className="flex items-center gap-3"> 
+               <div className="h-px flex-1 bg-muted" /> 
+               <span>OR</span> 
+               <div className="h-px flex-1 bg-muted" /> 
+             </div> 
           </div>
           <div className="space-y-5">
             <SignUpForm />
