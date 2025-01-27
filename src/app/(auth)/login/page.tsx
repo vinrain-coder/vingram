@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
-// import GoogleSignInButton from "./google/GoogleSignInButton";
+import GoogleSignInButton from "./google/GoogleSignInButton";
 import LoginForm from "./LoginForm";
 
 export const metadata: Metadata = {
@@ -14,11 +14,11 @@ export default function Page() {
         <div className="w-full space-y-10 overflow-y-auto p-10">
           <h1 className="text-center text-3xl font-bold">Login to Vingram</h1>
           <div className="space-y-5">
-{/*             <GoogleSignInButton /> */}
+             <GoogleSignInButton />
             <div className="flex items-center gap-3">
-{/*               <div className="h-px flex-1 bg-muted" /> */}
-{/*               <span>OR</span> */}
-{/*               <div className="h-px flex-1 bg-muted" /> */}
+              <div className="h-px flex-1 bg-muted" /> 
+             <span>OR</span> 
+              <div className="h-px flex-1 bg-muted" />
             </div>
             <LoginForm />
             <Link href="/signup" className="block text-center hover:underline">
